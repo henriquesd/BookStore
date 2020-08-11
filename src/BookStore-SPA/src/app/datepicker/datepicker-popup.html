@@ -1,0 +1,7 @@
+<div class="input-group">
+    <input class="form-control" [placeholder]="placeholder" name="dp" [(ngModel)]="model" ngbDatepicker
+     #d="ngbDatepicker">
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary fa fa-calendar-alt" (click)="d.toggle()" type="button"></button>
+    </div>
+  </div>

@@ -1,0 +1,58 @@
+<div class="jumbtron">
+    <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off" class="col-md-5 form">
+      <h2 class="text-center text-primary">Book</h2>
+      <input type="hidden" name="id" #id="ngModel" [(ngModel)]="formData.id">
+      <div class="form-group">
+        <input name="name" #name="ngModel" [(ngModel)]="formData.name" class="form-control" required
+          [ngClass]="{'is-invalid': form.controls['name']?.invalid && form.controls['name']?.touched}" placeholder="Name">
+        <div class="invalid-feedback" *ngIf="name.invalid && name.touched">Please inform the book's name.</div>
+      </div>
+      <div class="form-group">
+        <input name="author" #author="ngModel" [(ngModel)]="formData.author" class="form-control" placeholder="Author"
+          [ngClass]="{'is-invalid': form.controls['author']?.invalid && form.controls['author']?.touched}" required>
+        <div class="invalid-feedback" *ngIf="author.invalid && author.touched">Please inform the author's name.</div>
+      </div>
+      <div class="form-group">
+        <textarea name="description" #description="ngModel" [(ngModel)]="formData.description" class="form-control"
+          placeholder="Description"
+          [ngClass]="{'is-invalid': form.controls['description']?.invalid && form.controls['description']?.touched}"
+          required rows="4"></textarea>
+        <div class="invalid-feedback" *ngIf="description.invalid && description.touched">Please inform the description
+        </div>
+      </div>
+      <div class="form-group">
+        <select class="form-control" name="categoryId" #categoryId [(ngModel)]="formData.categoryId" required>
+          <option value="null" disabled selected hidden>Category</option>
+          <option *ngFor="let category of categories" value="{{category.id}}">
+            {{category.name}}
+          </option>
+        </select>
+        <div class="invalid-feedback" *ngIf="categoryId.invalid && categoryId.touched">Please inform the category</div>
+      </div>
+      <div class="form-group">
+        <input name="value" #value="ngModel" [(ngModel)]="formData.value" class="form-control" placeholder="Value"
+          type="number" [ngClass]="{'is-invalid': form.controls['value']?.invalid && form.controls['value']?.touched}"
+          required>
+        <div class="invalid-feedback" *ngIf="value.invalid && value.touched">Please inform the value</div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <input class="form-control" placeholder="Publish Date" id="publishDate" name="publishDate" ngbDatepicker
+            #d="ngbDatepicker" #publishDate="ngModel" [(ngModel)]="formData.publishDate" class="form-control" type="text"
+            [(ngModel)]="formData.publishDate" [minDate]="{year: 1800, month: 1, day: 1}"
+            [ngClass]="{'is-invalid': form.controls['publishDate']?.invalid && form.controls['publishDate']?.touched}"
+            required>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary fa fa-calendar-alt" (click)="d.toggle()" type="button"></button>
+          </div>
+          <div class="invalid-feedback" *ngIf="publishDate.invalid && publishDate.touched">Please inform the publish date
+          </div>
+        </div>
+      </div>
+      <div class="form-group text-center">
+        <button class="btn btn-success mr-2" [disabled]="form.invalid" type="submit">Save</button>
+        <button class="btn btn-default" type="button" (click)="cancel()">Cancel</button>
+      </div>
+  
+    </form>
+  </div>

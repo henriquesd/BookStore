@@ -1,0 +1,49 @@
+<div class="jumbtron">
+  <h1 class="display-4 text-center">Books</h1>
+</div>
+
+<div class="col-md-12">
+  <button type="button" class="btn btn-success" (click)="addBook()">New Book</button>
+  <hr/>
+
+  <div class="form-group">
+      <label for="Search">Search</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text bg-white">
+              <i class="fas fa-search"></i>
+          </div>
+        </div>
+        <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="search()"/>
+      </div>
+    </div>
+    
+  <table class="table table-condensed table-bordered table-striped table-hover">
+      <thead>
+          <tr>
+          <th>Book Name</th>
+          <th>Author</th>
+          <th>Description</th>
+          <th>Category</th>
+          <th>Value</th>
+          <th>Publish Date</th>
+          <th>Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let book of books">
+          <td>{{book.name}}</td>
+          <td>{{book.author}}</td>
+          <td>{{book.description.length > 25 ? (book.description | slice : 0:25) + '...' : book.description}}</td>
+          <td>{{book.categoryName}}</td>
+          <td>{{book.value | currency}}</td>
+          <td>{{book.publishDate | date: 'mediumDate'}}</td>
+          <td class="action-button-column">
+              <a title="Editar" (click)="editBook(book.id)"><i class="fas fa-edit"></i> </a>
+              <a title="Excluir" (click)="deleteBook(book.id)" style="margin-left: 12px;"><i class="fas fa-trash-alt"></i> </a>
+          </td>
+        </tr>
+      </tbody>
+
+  </table>
+</div>
