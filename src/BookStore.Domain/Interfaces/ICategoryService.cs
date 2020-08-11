@@ -12,5 +12,6 @@ namespace BookStore.Domain.Interfaces
         Task<Category> Add(Category category);
         Task<Category> Update(Category category);
         Task<bool> Remove(Category category);
+        Task<IEnumerable<Category>> Search(string categoryName);
     }
 }

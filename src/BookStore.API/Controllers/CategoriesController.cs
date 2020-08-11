@@ -78,5 +78,17 @@ namespace BookStore.API.Controllers
 
             return Ok();
         }
+
+        [Route("search/{category}")]
+        [HttpGet]
+        public async Task<ActionResult<List<Category>>> Search(string category)
+        {
+            var categories = _mapper.Map<List<Category>>(await _categoryService.Search(category));
+
+            if (categories == null || categories.Count == 0)
+                return NotFound("None category was founded");
+
+            return Ok(categories);
+        }
     }
 }
