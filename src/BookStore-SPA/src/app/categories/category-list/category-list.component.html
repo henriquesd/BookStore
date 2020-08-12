@@ -29,8 +29,8 @@
       <tr *ngFor="let category of categories">
         <td>{{category.name}}</td>
         <td class="action-button-column">
-          <a title="Editar" (click)="editCategory(category.id)"><i class="fas fa-edit"></i> </a>
-          <a title="Excluir" (click)="deleteCategory(category.id)" style="margin-left: 12px;"><i
+          <a title="Edit" (click)="editCategory(category.id)"><i class="fas fa-edit"></i> </a>
+          <a title="Delete" (click)="deleteCategory(category.id)" style="margin-left: 12px;"><i
               class="fas fa-trash-alt"></i> </a>
         </td>
       </tr>
