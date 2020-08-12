@@ -13,6 +13,7 @@ namespace BookStore.Domain.Interfaces
         Task<Book> Update(Book book);
         Task<bool> Remove(Book book);
         Task<IEnumerable<Book>> GetBooksByCategory(int categoryId);
-        Task<IEnumerable<Book>> Search(string searchedValue);
+        Task<IEnumerable<Book>> Search(string bookName);
+        Task<IEnumerable<Book>> SearchBookWithCategory(string searchedValue);
     }
 }

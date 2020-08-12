@@ -58,6 +58,7 @@ namespace BookStore.Domain.Services
         {
             return await _categoryRepository.Search(c => c.Name.Contains(categoryName));
         }
+
         public void Dispose()
         {
             _categoryRepository?.Dispose();

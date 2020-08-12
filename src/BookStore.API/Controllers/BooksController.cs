@@ -89,16 +89,26 @@ namespace BookStore.API.Controllers
             return Ok();
         }
 
-        [Route("search/{searchedValue}")]
+        [Route("search/{bookName}")]
         [HttpGet]
-        public async Task<ActionResult<List<Book>>> Search(string searchedValue)
+        public async Task<ActionResult<List<Book>>> Search(string bookName)
         {
-            var books = _mapper.Map<List<Book>>(await _bookService.Search(searchedValue));
+            var books = _mapper.Map<List<Book>>(await _bookService.Search(bookName));
 
-            if (books == null || books.Count == 0)
-                return NotFound("None book was founded");
+            if (books == null || books.Count == 0) return NotFound("None book was founded");
 
             return Ok(books);
+        }
+
+        [Route("search-book-with-category/{searchedValue}")]
+        [HttpGet]
+        public async Task<ActionResult<List<Book>>> SearchBookWithCategory(string searchedValue)
+        {
+            var books = _mapper.Map<List<Book>>(await _bookService.SearchBookWithCategory(searchedValue));
+
+            if (!books.Any()) return NotFound("None book was founded");
+
+            return Ok(_mapper.Map<IEnumerable<BookResultDto>>(books));
         }
     }
 }

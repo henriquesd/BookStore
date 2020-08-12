@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { BookService } from 'src/app/_services/book.service';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationDialogService } from 'src/app/_services/confirmation-dialog.service';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-book-list',
@@ -13,8 +15,7 @@ export class BookListComponent implements OnInit {
   public books: any;
   public listComplet: any;
   public searchTerm: string;
-  // Use the code below if you want to filter using the back end;
-  // public searchValueChanged: Subject<string> = new Subject<string>();
+  public searchValueChanged: Subject<string> = new Subject<string>();
 
   constructor(private router: Router,
               private service: BookService,
@@ -24,11 +25,10 @@ export class BookListComponent implements OnInit {
   ngOnInit() {
     this.getValues();
 
-    // Use the code below if you want to filter using the back end;
-    // this.searchValueChanged.pipe(debounceTime(1000))
-    // .subscribe(() => {
-    //   this.search();
-    // });
+    this.searchValueChanged.pipe(debounceTime(1000))
+    .subscribe(() => {
+      this.search();
+    });
   }
 
   private getValues() {
@@ -60,30 +60,30 @@ export class BookListComponent implements OnInit {
       .catch(() => '');
   }
 
-  public search() {
-    const value = this.searchTerm.toLowerCase();
-    this.books = this.listComplet.filter(
-      book => book.name.toLowerCase().startsWith(value, 0) ||
-        book.author.toLowerCase().startsWith(value, 0) ||
-        book.description.toString().startsWith(value, 0) ||
-        book.value.toString().startsWith(value, 0) ||
-        book.publishDate.toString().startsWith(value, 0));
+  // Use the code below if you want to filter only using the front end;
+  // public search() {
+  //   const value = this.searchTerm.toLowerCase();
+  //   this.books = this.listComplet.filter(
+  //     book => book.name.toLowerCase().startsWith(value, 0) ||
+  //       book.author.toLowerCase().startsWith(value, 0) ||
+  //       book.description.toString().startsWith(value, 0) ||
+  //       book.value.toString().startsWith(value, 0) ||
+  //       book.publishDate.toString().startsWith(value, 0));
+  // }
+
+  public searchBooks() {
+    this.searchValueChanged.next();
   }
 
-  // Use the code below if you want to filter using the back end;
-  // public searchBooks() {
-  //   this.searchValueChanged.next();
-  // }
-
-  // private search() {
-  //   if (this.searchTerm !== '') {
-  //     this.service.search(this.searchTerm).subscribe(book => {
-  //       this.books = book;
-  //     }, error => {
-  //       this.books = [];
-  //     });
-  //   } else {
-  //     this.service.getBooks().subscribe(books => this.books = books);
-  //   }
-  // }
+  private search() {
+    if (this.searchTerm !== '') {
+      this.service.searchBooksWithCategory(this.searchTerm).subscribe(book => {
+        this.books = book;
+      }, error => {
+        this.books = [];
+      });
+    } else {
+      this.service.getBooks().subscribe(books => this.books = books);
+    }
+  }
 }

@@ -30,5 +30,16 @@ namespace BookStore.Infrastructure.Repositories
         {
             return await Search(b => b.CategoryId == categoryId);
         }
+
+        public async Task<IEnumerable<Book>> SearchBookWithCategory(string searchedValue)
+        {
+            return await Db.Books.AsNoTracking()
+                .Include(b => b.Category)
+                .Where(b => b.Name.Contains(searchedValue) || 
+                            b.Author.Contains(searchedValue) ||
+                            b.Description.Contains(searchedValue) ||
+                            b.Category.Name.Contains(searchedValue))
+                .ToListAsync();
+        }
     }
 }
