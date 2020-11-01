@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using BookStore.Domain.Interfaces;
 using BookStore.Domain.Models;
 using BookStore.Domain.Services;
@@ -13,7 +12,6 @@ namespace BookStore.Domain.Tests
         private readonly Mock<ICategoryRepository> _categoryRepositoryMock;
         private readonly Mock<IBookService> _bookService;
         private readonly CategoryService _categoryService;
-
 
         public CategoryServiceTests()
         {
