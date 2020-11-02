@@ -26,8 +26,6 @@ namespace BookStore.API.Controllers
         {
             var categories = await _categoryService.GetAll();
 
-            if (categories == null) return NotFound();
-
             return Ok(_mapper.Map<IEnumerable<CategoryResultDto>>(categories));
         }
 

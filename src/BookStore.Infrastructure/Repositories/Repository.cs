@@ -52,7 +52,6 @@ namespace BookStore.Infrastructure.Repositories
         public virtual async Task Remove(TEntity entity)
         {
             DbSet.Remove(entity);
-
             await SaveChanges();
         }
 

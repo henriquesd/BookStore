@@ -39,20 +39,6 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void GetAll_ShouldCallGetAllFromRepository_JustOnce()
-        {
-            var categories = CreateCategoryList();
-            var dtoExpected = MapModelToCategoryListDto(categories);
-
-            _categoryServiceMock.Setup(c => c.GetAll()).ReturnsAsync(categories);
-            _mapperMock.Setup(m => m.Map<IEnumerable<CategoryResultDto>>(It.IsAny<List<Category>>())).Returns(dtoExpected);
-
-            await _categoriesController.GetAll();
-
-            _categoryServiceMock.Verify(mock => mock.GetAll(), Times.Once);
-        }
-
-        [Fact]
         public async void GetAll_ShouldReturnOk_WhenDoesNotExistAnyCategory()
         {
             var categories = new List<Category>();
@@ -67,17 +53,17 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void GetAll_ShouldReturn_NotFound_WhenCategoriesAreNull()
+        public async void GetAll_ShouldCallGetAllFromRepository_JustOnce()
         {
-            var categories = new List<Category>();
+            var categories = CreateCategoryList();
             var dtoExpected = MapModelToCategoryListDto(categories);
 
-            _categoryServiceMock.Setup(c => c.GetAll()).ReturnsAsync((IEnumerable<Category>)null);
-            _mapperMock.Setup(m => m.Map<List<CategoryResultDto>>(It.IsAny<List<CategoryResultDto>>())).Returns(dtoExpected);
+            _categoryServiceMock.Setup(c => c.GetAll()).ReturnsAsync(categories);
+            _mapperMock.Setup(m => m.Map<IEnumerable<CategoryResultDto>>(It.IsAny<List<Category>>())).Returns(dtoExpected);
 
-            var result = await _categoriesController.GetAll();
-            
-            Assert.IsType<NotFoundResult>(result);
+            await _categoriesController.GetAll();
+
+            _categoryServiceMock.Verify(mock => mock.GetAll(), Times.Once);
         }
 
         [Fact]
@@ -95,6 +81,16 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
+        public async void GetById_ShouldReturnNotFound__WhenCategoryDoesNotExist()
+        {
+            _categoryServiceMock.Setup(c => c.GetById(2)).ReturnsAsync((Category)null);
+
+            var result = await _categoriesController.GetById(2);
+
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
         public async void GetById_ShouldCallGetByIdFromRepository_JustOnce()
         {
             var category = CreateCategory();
@@ -106,16 +102,6 @@ namespace BookStore.API.Tests
             await _categoriesController.GetById(2);
 
             _categoryServiceMock.Verify(mock => mock.GetById(2), Times.Once);
-        }
-
-        [Fact]
-        public async void GetById_ShouldReturnNotFound__WhenCategoryDoesNotExist()
-        {
-            _categoryServiceMock.Setup(c => c.GetById(2)).ReturnsAsync((Category)null);
-
-            var result = await _categoriesController.GetById(2);
-
-            Assert.IsType<NotFoundResult>(result);
         }
 
         [Fact]
@@ -135,20 +121,6 @@ namespace BookStore.API.Tests
             var result = await _categoriesController.Add(categoryAddDto);
            
             Assert.IsType<OkObjectResult>(result);
-        }
-
-        [Fact]
-        public async void Add_ShouldCallAddFromRepository_JustOnce()
-        {
-            var category = CreateCategory();
-            var categoryAddDto = new CategoryAddDto() { Name = category.Name };
-
-            _mapperMock.Setup(m => m.Map<Category>(It.IsAny<CategoryAddDto>())).Returns(category);
-            _categoryServiceMock.Setup(c => c.Add(category)).ReturnsAsync(category);
-
-            await _categoriesController.Add(categoryAddDto);
-
-            _categoryServiceMock.Verify(mock => mock.Add(category), Times.Once);
         }
 
         [Fact]
@@ -177,6 +149,20 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
+        public async void Add_ShouldCallAddFromRepository_JustOnce()
+        {
+            var category = CreateCategory();
+            var categoryAddDto = new CategoryAddDto() { Name = category.Name };
+
+            _mapperMock.Setup(m => m.Map<Category>(It.IsAny<CategoryAddDto>())).Returns(category);
+            _categoryServiceMock.Setup(c => c.Add(category)).ReturnsAsync(category);
+
+            await _categoriesController.Add(categoryAddDto);
+
+            _categoryServiceMock.Verify(mock => mock.Add(category), Times.Once);
+        }
+
+        [Fact]
         public async void Update_ShouldReturnOk_WhenCategoryIsUpdatedCorrectly()
         {
             var category = CreateCategory();
@@ -189,21 +175,6 @@ namespace BookStore.API.Tests
             var result = await _categoriesController.Update(categoryEditDto.Id, categoryEditDto);
 
             Assert.IsType<OkObjectResult>(result);
-        }
-
-        [Fact]
-        public async void Update_ShouldCallUpdateFromRepository_JustOnce()
-        {
-            var category = CreateCategory();
-            var categoryEditDto = new CategoryEditDto() { Id = category.Id,  Name = "Test" };
-
-            _mapperMock.Setup(m => m.Map<Category>(It.IsAny<CategoryEditDto>())).Returns(category);
-            _categoryServiceMock.Setup(c => c.GetById(category.Id)).ReturnsAsync(category);
-            _categoryServiceMock.Setup(c => c.Update(category)).ReturnsAsync(category);
-
-            await _categoriesController.Update(categoryEditDto.Id, categoryEditDto);
-
-            _categoryServiceMock.Verify(mock => mock.Update(category), Times.Once);
         }
 
         [Fact]
@@ -228,6 +199,21 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
+        public async void Update_ShouldCallUpdateFromRepository_JustOnce()
+        {
+            var category = CreateCategory();
+            var categoryEditDto = new CategoryEditDto() { Id = category.Id, Name = "Test" };
+
+            _mapperMock.Setup(m => m.Map<Category>(It.IsAny<CategoryEditDto>())).Returns(category);
+            _categoryServiceMock.Setup(c => c.GetById(category.Id)).ReturnsAsync(category);
+            _categoryServiceMock.Setup(c => c.Update(category)).ReturnsAsync(category);
+
+            await _categoriesController.Update(categoryEditDto.Id, categoryEditDto);
+
+            _categoryServiceMock.Verify(mock => mock.Update(category), Times.Once);
+        }
+
+        [Fact]
         public async void Remove_ShouldReturnOk_WhenCategoryIsRemoved()
         {
             var category = CreateCategory();
@@ -237,18 +223,6 @@ namespace BookStore.API.Tests
             var result = await _categoriesController.Remove(category.Id);
          
             Assert.IsType<OkResult>(result);
-        }
-
-        [Fact]
-        public async void Remove_ShouldCallRemoveFromRepository_JustOnce()
-        {
-            var category = CreateCategory();
-            _categoryServiceMock.Setup(c => c.GetById(category.Id)).ReturnsAsync(category);
-            _categoryServiceMock.Setup(c => c.Remove(category)).ReturnsAsync(true);
-
-            await _categoriesController.Remove(category.Id);
-
-            _categoryServiceMock.Verify(mock => mock.Remove(category), Times.Once);
         }
 
         [Fact]
@@ -275,6 +249,18 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
+        public async void Remove_ShouldCallRemoveFromRepository_JustOnce()
+        {
+            var category = CreateCategory();
+            _categoryServiceMock.Setup(c => c.GetById(category.Id)).ReturnsAsync(category);
+            _categoryServiceMock.Setup(c => c.Remove(category)).ReturnsAsync(true);
+
+            await _categoriesController.Remove(category.Id);
+
+            _categoryServiceMock.Verify(mock => mock.Remove(category), Times.Once);
+        }
+
+        [Fact]
         public async void Search_ShouldReturnCategories_WhenCategoryWithSearchedNameExist()
         {
             var categoryList = CreateCategoryList();
@@ -289,21 +275,6 @@ namespace BookStore.API.Tests
             var categoryListResult = actual.Value as List<Category>;
 
             Assert.IsType<OkObjectResult>(actual);
-        }
-
-        [Fact]
-        public async void Search_ShouldCallSearchFromRepository_JustOnce()
-        {
-            var categoryList = CreateCategoryList();
-            var category = CreateCategory();
-
-            _categoryServiceMock.Setup(c => c.Search(category.Name))
-                .ReturnsAsync(categoryList);
-            _mapperMock.Setup(m => m.Map<List<Category>>(It.IsAny<IEnumerable<Category>>())).Returns(categoryList);
-
-            await _categoriesController.Search(category.Name);
-
-            _categoryServiceMock.Verify(mock => mock.Search(category.Name), Times.Once);
         }
 
         [Fact]
@@ -323,6 +294,21 @@ namespace BookStore.API.Tests
             var actual = (NotFoundObjectResult)result.Result;
 
             Assert.IsType<NotFoundObjectResult>(actual);
+        }
+
+        [Fact]
+        public async void Search_ShouldCallSearchFromRepository_JustOnce()
+        {
+            var categoryList = CreateCategoryList();
+            var category = CreateCategory();
+
+            _categoryServiceMock.Setup(c => c.Search(category.Name))
+                .ReturnsAsync(categoryList);
+            _mapperMock.Setup(m => m.Map<List<Category>>(It.IsAny<IEnumerable<Category>>())).Returns(categoryList);
+
+            await _categoriesController.Search(category.Name);
+
+            _categoryServiceMock.Verify(mock => mock.Search(category.Name), Times.Once);
         }
 
         private Category CreateCategory()

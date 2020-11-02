@@ -21,7 +21,7 @@ namespace BookStore.Domain.Tests
         }
 
         [Fact]
-        public async void GetAll_ShouldReturnAllCategories_WhenCategoriesExist()
+        public async void GetAll_ShouldReturnAListOFCategories_WhenCategoriesExist()
         {
             var categories = CreateCategoryList();
 
@@ -35,7 +35,7 @@ namespace BookStore.Domain.Tests
         }
 
         [Fact]
-        public async void GetAll_ShouldNotReturnCategories_WhenCategoriesDoNotExist()
+        public async void GetAll_ShouldReturnNull_WhenCategoriesDoNotExist()
         {
             _categoryRepositoryMock.Setup(c =>
                 c.GetAll()).ReturnsAsync((List<Category>)null);
@@ -44,9 +44,20 @@ namespace BookStore.Domain.Tests
 
             Assert.Null(result);
         }
+        
+        [Fact]
+        public async void GetAll_ShouldCallGetAllFromRepository_JustOnce()
+        {
+            _categoryRepositoryMock.Setup(c =>
+                c.GetAll()).ReturnsAsync((List<Category>)null);
+
+            await _categoryService.GetAll();
+
+            _categoryRepositoryMock.Verify(mock => mock.GetAll(), Times.Once);
+        }
 
         [Fact]
-        public async void GetById_ShouldReturnSearchedCategory_WhenCategoryExist()
+        public async void GetById_ShouldReturnCategory_WhenCategoryExist()
         {
             var category = CreateCategory();
 
@@ -60,7 +71,7 @@ namespace BookStore.Domain.Tests
         }
 
         [Fact]
-        public async void GetById_ShouldNotReturnCategory_WhenCategoryDoesNotExist()
+        public async void GetById_ShouldReturnNull_WhenCategoryDoesNotExist()
         {
             _categoryRepositoryMock.Setup(c =>
                 c.GetById(1)).ReturnsAsync((Category)null);
@@ -98,21 +109,6 @@ namespace BookStore.Domain.Tests
         }
 
         [Fact]
-        public async void Add_ShouldCallAddFromRepository_JustOnce()
-        {
-            var category = CreateCategory();
-
-            _categoryRepositoryMock.Setup(c =>
-                c.Search(c => c.Name == category.Name))
-                .ReturnsAsync(new List<Category>());
-            _categoryRepositoryMock.Setup(c => c.Add(category));
-
-            await _categoryService.Add(category);
-
-             _categoryRepositoryMock.Verify(mock => mock.Add(category), Times.Once);
-        }
-
-        [Fact]
         public async void Add_ShouldNotAddCategory_WhenCategoryNameAlreadyExist()
         {
             var category = CreateCategory();
@@ -124,6 +120,21 @@ namespace BookStore.Domain.Tests
             var result = await _categoryService.Add(category);
 
             Assert.Null(result);
+        }
+
+        [Fact]
+        public async void Add_ShouldCallAddFromRepository_JustOnce()
+        {
+            var category = CreateCategory();
+
+            _categoryRepositoryMock.Setup(c =>
+                    c.Search(c => c.Name == category.Name))
+                .ReturnsAsync(new List<Category>());
+            _categoryRepositoryMock.Setup(c => c.Add(category));
+
+            await _categoryService.Add(category);
+
+            _categoryRepositoryMock.Verify(mock => mock.Add(category), Times.Once);
         }
 
         [Fact]
@@ -141,21 +152,7 @@ namespace BookStore.Domain.Tests
             Assert.NotNull(result);
             Assert.IsType<Category>(result);
         }
-
-        [Fact]
-        public async void Update_ShouldCallUpdateFromRepository_JustOnce()
-        {
-            var category = CreateCategory();
-
-            _categoryRepositoryMock.Setup(c =>
-                    c.Search(c => c.Name == category.Name && c.Id != category.Id))
-                .ReturnsAsync(new List<Category>());
-
-            await _categoryService.Update(category);
-
-            _categoryRepositoryMock.Verify(mock => mock.Update(category), Times.Once);
-        }
-
+        
         [Fact]
         public async void Update_ShouldNotUpdateCategory_WhenCategoryDoesNotExist()
         {
@@ -176,6 +173,20 @@ namespace BookStore.Domain.Tests
             var result = await _categoryService.Update(category);
 
             Assert.Null(result);
+        }
+
+        [Fact]
+        public async void Update_ShouldCallUpdateFromRepository_JustOnce()
+        {
+            var category = CreateCategory();
+
+            _categoryRepositoryMock.Setup(c =>
+                    c.Search(c => c.Name == category.Name && c.Id != category.Id))
+                .ReturnsAsync(new List<Category>());
+
+            await _categoryService.Update(category);
+
+            _categoryRepositoryMock.Verify(mock => mock.Update(category), Times.Once);
         }
 
         [Fact]
@@ -229,7 +240,7 @@ namespace BookStore.Domain.Tests
 
 
         [Fact]
-        public async void Search_ShouldReturnCategories_WhenCategoriesWithSearchedNameExist()
+        public async void Search_ShouldReturnAListOfCategory_WhenCategoriesWithSearchedNameExist()
         {
             var categoryList = CreateCategoryList();
             var searchedCategory = CreateCategory();
@@ -246,22 +257,6 @@ namespace BookStore.Domain.Tests
         }
 
         [Fact]
-        public async void Search_ShouldCallSearchFromRepository_JustOnce()
-        {
-            var categoryList = CreateCategoryList();
-            var searchedCategory = CreateCategory();
-            var categoryName = searchedCategory.Name;
-
-            _categoryRepositoryMock.Setup(c =>
-                c.Search(c => c.Name.Contains(categoryName)))
-                .ReturnsAsync(categoryList);
-
-                await _categoryService.Search(searchedCategory.Name);
-
-            _categoryRepositoryMock.Verify(mock => mock.Search(c => c.Name.Contains(categoryName)), Times.Once);
-        }
-
-        [Fact]
         public async void Search_ShouldReturnNull_WhenCategoriesWithSearchedNameDoNotExist()
         {
             var searchedCategory = CreateCategory();
@@ -274,6 +269,22 @@ namespace BookStore.Domain.Tests
             var result = await _categoryService.Search(searchedCategory.Name);
 
             Assert.Null(result);
+        }
+
+        [Fact]
+        public async void Search_ShouldCallSearchFromRepository_JustOnce()
+        {
+            var categoryList = CreateCategoryList();
+            var searchedCategory = CreateCategory();
+            var categoryName = searchedCategory.Name;
+
+            _categoryRepositoryMock.Setup(c =>
+                    c.Search(c => c.Name.Contains(categoryName)))
+                .ReturnsAsync(categoryList);
+
+            await _categoryService.Search(searchedCategory.Name);
+
+            _categoryRepositoryMock.Verify(mock => mock.Search(c => c.Name.Contains(categoryName)), Times.Once);
         }
 
         private Category CreateCategory()

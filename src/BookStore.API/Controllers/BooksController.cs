@@ -27,8 +27,6 @@ namespace BookStore.API.Controllers
         {
             var books = await _bookService.GetAll();
 
-            if (books == null) return NotFound();
-
             return Ok(_mapper.Map<IEnumerable<BookResultDto>>(books));
         }
 

@@ -37,21 +37,7 @@ namespace BookStore.API.Tests
 
             Assert.IsType<OkObjectResult>(result);
         }
-        
-        [Fact]
-        public async void GetAll_ShouldCallGetAllFromRepository_JustOnce()
-        {
-            var books = CreateBookList();
-            var dtoExpected = MapModelToBookResultListDto(books);
-
-            _bookServiceMock.Setup(c => c.GetAll()).ReturnsAsync(books);
-            _mapperMock.Setup(m => m.Map<IEnumerable<BookResultDto>>(It.IsAny<List<Book>>())).Returns(dtoExpected);
-
-            await _booksController.GetAll();
-
-            _bookServiceMock.Verify(mock => mock.GetAll(), Times.Once);
-        }
-
+     
         [Fact]
         public async void GetAll_ShouldReturnOk_WhenDoesNotExistAnyBook()
         {
@@ -67,17 +53,17 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void GetAll_ShouldReturnNotFound_WhenBooksAreNull()
+        public async void GetAll_ShouldCallGetAllFromRepository_JustOnce()
         {
-            var books = new List<Book>();
+            var books = CreateBookList();
             var dtoExpected = MapModelToBookResultListDto(books);
 
-            _bookServiceMock.Setup(c => c.GetAll()).ReturnsAsync((IEnumerable<Book>)null);
-            _mapperMock.Setup(m => m.Map<List<BookResultDto>>(It.IsAny<List<BookResultDto>>())).Returns(dtoExpected);
+            _bookServiceMock.Setup(c => c.GetAll()).ReturnsAsync(books);
+            _mapperMock.Setup(m => m.Map<IEnumerable<BookResultDto>>(It.IsAny<List<Book>>())).Returns(dtoExpected);
 
-            var result = await _booksController.GetAll();
+            await _booksController.GetAll();
 
-            Assert.IsType<NotFoundResult>(result);
+            _bookServiceMock.Verify(mock => mock.GetAll(), Times.Once);
         }
 
         [Fact]
@@ -95,6 +81,16 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
+        public async void GetById_ShouldReturnNotFound_WhenBookDoesNotExist()
+        {
+            _bookServiceMock.Setup(c => c.GetById(2)).ReturnsAsync((Book)null);
+
+            var result = await _booksController.GetById(2);
+
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
         public async void GetById_ShouldCallGetByIdFromRepository_JustOnce()
         {
             var book = CreateBook();
@@ -106,16 +102,6 @@ namespace BookStore.API.Tests
             await _booksController.GetById(2);
 
             _bookServiceMock.Verify(mock => mock.GetById(2), Times.Once);
-        }
-
-        [Fact]
-        public async void GetById_ShouldReturnNotFound_WhenBookDoesNotExist()
-        {
-            _bookServiceMock.Setup(c => c.GetById(2)).ReturnsAsync((Book)null);
-
-            var result = await _booksController.GetById(2);
-
-            Assert.IsType<NotFoundResult>(result);
         }
 
         [Fact]
@@ -134,6 +120,20 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
+        public async void GetBooksByCategory_ShouldReturnNotFound_WhenBookWithSearchedCategoryDoesNotExist()
+        {
+            var book = CreateBook();
+            var dtoExpected = MapModelToBookResultDto(book);
+
+            _bookServiceMock.Setup(c => c.GetBooksByCategory(book.CategoryId)).ReturnsAsync(new List<Book>());
+            _mapperMock.Setup(m => m.Map<BookResultDto>(It.IsAny<Book>())).Returns(dtoExpected);
+
+            var result = await _booksController.GetBooksByCategory(book.CategoryId);
+
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
         public async void GetBooksByCategory_ShouldCallGetBooksByCategoryFromRepository_JustOnce()
         {
             var bookList = CreateBookList();
@@ -146,20 +146,6 @@ namespace BookStore.API.Tests
             await _booksController.GetBooksByCategory(book.CategoryId);
 
             _bookServiceMock.Verify(mock => mock.GetBooksByCategory(book.CategoryId), Times.Once);
-        }
-
-        [Fact]
-        public async void GetBooksByCategory_ShouldReturnNotFound_WhenBookWithSearchedCategoryDoesNotExist()
-        {
-            var book = CreateBook();
-            var dtoExpected = MapModelToBookResultDto(book);
-
-            _bookServiceMock.Setup(c => c.GetBooksByCategory(book.CategoryId)).ReturnsAsync(new List<Book>());
-            _mapperMock.Setup(m => m.Map<BookResultDto>(It.IsAny<Book>())).Returns(dtoExpected);
-
-            var result = await _booksController.GetBooksByCategory(book.CategoryId);
-
-            Assert.IsType<NotFoundResult>(result);
         }
 
         [Fact]
@@ -179,20 +165,6 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Search_ShouldCallSearchFromRepository_JustOnce()
-        {
-            var bookList = CreateBookList();
-            var book = CreateBook();
-
-            _bookServiceMock.Setup(c => c.Search(book.Name)).ReturnsAsync(bookList);
-            _mapperMock.Setup(m => m.Map<List<Book>>(It.IsAny<IEnumerable<Book>>())).Returns(bookList);
-
-            await _booksController.Search(book.Name);
-
-            _bookServiceMock.Verify(mock => mock.Search(book.Name), Times.Once);
-        }
-
-        [Fact]
         public async void Search_ShouldReturnNotFound_WhenBookWithSearchedNameDoesNotExist()
         {
             var book = CreateBook();
@@ -209,6 +181,20 @@ namespace BookStore.API.Tests
 
             Assert.NotNull(actual);
             Assert.IsType<NotFoundObjectResult>(actual);
+        }
+
+        [Fact]
+        public async void Search_ShouldCallSearchFromRepository_JustOnce()
+        {
+            var bookList = CreateBookList();
+            var book = CreateBook();
+
+            _bookServiceMock.Setup(c => c.Search(book.Name)).ReturnsAsync(bookList);
+            _mapperMock.Setup(m => m.Map<List<Book>>(It.IsAny<IEnumerable<Book>>())).Returns(bookList);
+
+            await _booksController.Search(book.Name);
+
+            _bookServiceMock.Verify(mock => mock.Search(book.Name), Times.Once);
         }
 
         [Fact]
@@ -288,20 +274,6 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Add_ShouldCallAddFromRepository_JustOnce()
-        {
-            var book = CreateBook();
-            var bookAddDto = new BookAddDto() { Name = book.Name };
-
-            _mapperMock.Setup(m => m.Map<Book>(It.IsAny<BookAddDto>())).Returns(book);
-            _bookServiceMock.Setup(c => c.Add(book)).ReturnsAsync(book);
-
-            await _booksController.Add(bookAddDto);
-
-            _bookServiceMock.Verify(mock => mock.Add(book), Times.Once);
-        }
-
-        [Fact]
         public async void Add_ShouldReturnBadRequest_WhenModelStateIsInvalid()
         {
             var bookAddDto = new BookAddDto();
@@ -327,6 +299,20 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
+        public async void Add_ShouldCallAddFromRepository_JustOnce()
+        {
+            var book = CreateBook();
+            var bookAddDto = new BookAddDto() { Name = book.Name };
+
+            _mapperMock.Setup(m => m.Map<Book>(It.IsAny<BookAddDto>())).Returns(book);
+            _bookServiceMock.Setup(c => c.Add(book)).ReturnsAsync(book);
+
+            await _booksController.Add(bookAddDto);
+
+            _bookServiceMock.Verify(mock => mock.Add(book), Times.Once);
+        }
+
+        [Fact]
         public async void Update_ShouldReturnOk_WhenBookIsUpdatedCorrectly()
         {
             var book = CreateBook();
@@ -339,21 +325,6 @@ namespace BookStore.API.Tests
             var result = await _booksController.Update(bookEditDto.Id, bookEditDto);
 
             Assert.IsType<OkObjectResult>(result);
-        }
-
-        [Fact]
-        public async void Update_ShouldCallUpdateFromRepository_JustOnce()
-        {
-            var book = CreateBook();
-            var bookEditDto = new BookEditDto() { Id = book.Id,  Name = "Test" };
-
-            _mapperMock.Setup(m => m.Map<Book>(It.IsAny<BookEditDto>())).Returns(book);
-            _bookServiceMock.Setup(c => c.GetById(book.Id)).ReturnsAsync(book);
-            _bookServiceMock.Setup(c => c.Update(book)).ReturnsAsync(book);
-
-            await _booksController.Update(bookEditDto.Id, bookEditDto);
-
-            _bookServiceMock.Verify(mock => mock.Update(book), Times.Once);
         }
 
         [Fact]
@@ -378,6 +349,21 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
+        public async void Update_ShouldCallUpdateFromRepository_JustOnce()
+        {
+            var book = CreateBook();
+            var bookEditDto = new BookEditDto() { Id = book.Id, Name = "Test" };
+
+            _mapperMock.Setup(m => m.Map<Book>(It.IsAny<BookEditDto>())).Returns(book);
+            _bookServiceMock.Setup(c => c.GetById(book.Id)).ReturnsAsync(book);
+            _bookServiceMock.Setup(c => c.Update(book)).ReturnsAsync(book);
+
+            await _booksController.Update(bookEditDto.Id, bookEditDto);
+
+            _bookServiceMock.Verify(mock => mock.Update(book), Times.Once);
+        }
+
+        [Fact]
         public async void Remove_ShouldReturnOk_WhenBookIsRemoved()
         {
             var book = CreateBook();
@@ -390,6 +376,17 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
+        public async void Remove_ShouldReturnNotFound_WhenBookIdDoesNotExist()
+        {
+            var book = CreateBook();
+            _bookServiceMock.Setup(c => c.GetById(book.Id)).ReturnsAsync((Book)null);
+
+            var result = await _booksController.Remove(book.Id);
+
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
         public async void Remove_ShouldCallRemoveFromRepository_JustOnce()
         {
             var book = CreateBook();
@@ -399,17 +396,6 @@ namespace BookStore.API.Tests
             await _booksController.Remove(book.Id);
 
             _bookServiceMock.Verify(mock => mock.Remove(book), Times.Once);
-        }
-
-        [Fact]
-        public async void Remove_ShouldReturnNotFound_WhenBookIdDoesNotExist()
-        {
-            var book = CreateBook();
-            _bookServiceMock.Setup(c => c.GetById(book.Id)).ReturnsAsync((Book)null);
-
-            var result = await _booksController.Remove(book.Id);
-
-            Assert.IsType<NotFoundResult>(result);
         }
 
         private Book CreateBook()
