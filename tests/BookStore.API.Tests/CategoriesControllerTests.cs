@@ -180,7 +180,7 @@ namespace BookStore.API.Tests
         [Fact]
         public async void Update_ShouldReturnBadRequest_WhenCategoryIdIsDifferentThenParameterId()
         {
-            var categoryEditDto = new CategoryEditDto() { Id = 1,  Name = "Fantasy" };
+            var categoryEditDto = new CategoryEditDto() { Id = 1,  Name = "Test" };
 
             var result = await _categoriesController.Update(2, categoryEditDto);
 
@@ -316,7 +316,7 @@ namespace BookStore.API.Tests
             return new Category()
             {
                 Id = 2,
-                Name = "IT"
+                Name = "Category Name 1"
             };
         }
 
@@ -337,17 +337,17 @@ namespace BookStore.API.Tests
                 new Category()
                 {
                    Id = 1,
-                   Name = "Fantasy"
+                   Name = "Category Name 1"
                 },
                 new Category()
                 {
                     Id = 2,
-                    Name = "IT"
+                    Name = "Category Name 2"
                 },
                 new Category()
                 {
                     Id = 3,
-                    Name = "History"
+                    Name = "Category Name 3"
                 }
             };
         }

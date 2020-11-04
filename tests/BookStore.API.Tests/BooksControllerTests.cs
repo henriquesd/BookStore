@@ -330,7 +330,7 @@ namespace BookStore.API.Tests
         [Fact]
         public async void Update_ShouldReturnBadRequest_WhenBookIdIsDifferentThenParameterId()
         {
-            var bookEditDto = new BookEditDto() { Id = 1,  Name = "Fantasy" };
+            var bookEditDto = new BookEditDto() { Id = 1,  Name = "Test" };
 
             var result = await _booksController.Update(2, bookEditDto);
 

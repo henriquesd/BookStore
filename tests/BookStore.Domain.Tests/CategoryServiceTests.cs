@@ -21,7 +21,7 @@ namespace BookStore.Domain.Tests
         }
 
         [Fact]
-        public async void GetAll_ShouldReturnAListOFCategories_WhenCategoriesExist()
+        public async void GetAll_ShouldReturnAListOfCategories_WhenCategoriesExist()
         {
             var categories = CreateCategoryList();
 
@@ -162,7 +162,7 @@ namespace BookStore.Domain.Tests
                 new Category()
                 {
                     Id = 2,
-                    Name = "IT"
+                    Name = "Category Name 2"
                 }
             };
 
@@ -212,8 +212,8 @@ namespace BookStore.Domain.Tests
                 new Book()
                 {
                     Id = 1,
-                    Name = "TestName",
-                    Author = "TestAuthor",
+                    Name = "Test Name 1",
+                    Author = "Test Author 1",
                     CategoryId = category.Id
                 }
             };
@@ -292,7 +292,7 @@ namespace BookStore.Domain.Tests
             return new Category()
             {
                 Id = 1,
-                Name = "Fantasy"
+                Name = "Category Name 1"
             };
         }
 
@@ -303,17 +303,17 @@ namespace BookStore.Domain.Tests
                 new Category()
                 {
                     Id = 1,
-                    Name = "Fantasy"
+                    Name = "Category Name 1"
                 },
                 new Category()
                 {
                     Id = 2,
-                    Name = "IT"
+                    Name = "Category Name 2"
                 },
                 new Category()
                 {
                     Id = 3,
-                    Name = "History"
+                    Name = "Category Name 3"
                 }
             };
         }
