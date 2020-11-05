@@ -357,22 +357,6 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void SearchBookWithCategory_ShouldCallSearchBookWithCategoryFromService_JustOnce()
-        {
-            var bookList = CreateBookList();
-            var book = CreateBook();
-            var bookResultList = MapModelToBookResultListDto(bookList);
-
-            _bookServiceMock.Setup(c => c.SearchBookWithCategory(book.Name)).ReturnsAsync(bookList);
-            _mapperMock.Setup(m => m.Map<IEnumerable<Book>>(It.IsAny<List<Book>>())).Returns(bookList);
-            _mapperMock.Setup(m => m.Map<IEnumerable<BookResultDto>>(It.IsAny<List<Book>>())).Returns(bookResultList);
-
-            await _booksController.SearchBookWithCategory(book.Name);
-
-            _bookServiceMock.Verify(mock => mock.SearchBookWithCategory(book.Name), Times.Once);
-        }
-
-        [Fact]
         public async void SearchBookWithCategory_ShouldReturnNotFound_WhenBookWithSearchedValueDoesNotExist()
         {
             var book = CreateBook();
@@ -388,6 +372,21 @@ namespace BookStore.API.Tests
             Assert.IsType<NotFoundObjectResult>(actual);
         }
 
+        [Fact]
+        public async void SearchBookWithCategory_ShouldCallSearchBookWithCategoryFromService_JustOnce()
+        {
+            var bookList = CreateBookList();
+            var book = CreateBook();
+            var bookResultList = MapModelToBookResultListDto(bookList);
+
+            _bookServiceMock.Setup(c => c.SearchBookWithCategory(book.Name)).ReturnsAsync(bookList);
+            _mapperMock.Setup(m => m.Map<IEnumerable<Book>>(It.IsAny<List<Book>>())).Returns(bookList);
+            _mapperMock.Setup(m => m.Map<IEnumerable<BookResultDto>>(It.IsAny<List<Book>>())).Returns(bookResultList);
+
+            await _booksController.SearchBookWithCategory(book.Name);
+
+            _bookServiceMock.Verify(mock => mock.SearchBookWithCategory(book.Name), Times.Once);
+        }
 
         private Book CreateBook()
         {
