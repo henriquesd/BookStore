@@ -223,7 +223,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Remove_ShouldReturnNotFound_WhenCategoryIdDoesNotExist()
+        public async void Remove_ShouldReturnNotFound_WhenCategoryDoesNotExist()
         {
             var category = CreateCategory();
             _categoryServiceMock.Setup(c => c.GetById(category.Id)).ReturnsAsync((Category)null);
