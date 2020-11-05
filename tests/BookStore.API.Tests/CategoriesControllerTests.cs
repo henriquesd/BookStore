@@ -53,7 +53,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void GetAll_ShouldCallGetAllFromRepository_JustOnce()
+        public async void GetAll_ShouldCallGetAllFromService_JustOnce()
         {
             var categories = CreateCategoryList();
             var dtoExpected = MapModelToCategoryListDto(categories);
@@ -81,7 +81,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void GetById_ShouldReturnNotFound__WhenCategoryDoesNotExist()
+        public async void GetById_ShouldReturnNotFound_WhenCategoryDoesNotExist()
         {
             _categoryServiceMock.Setup(c => c.GetById(2)).ReturnsAsync((Category)null);
 
@@ -91,7 +91,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void GetById_ShouldCallGetByIdFromRepository_JustOnce()
+        public async void GetById_ShouldCallGetByIdFromService_JustOnce()
         {
             var category = CreateCategory();
             var dtoExpected = MapModelToCategoryResultDto(category);
@@ -149,7 +149,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Add_ShouldCallAddFromRepository_JustOnce()
+        public async void Add_ShouldCallAddFromService_JustOnce()
         {
             var category = CreateCategory();
             var categoryAddDto = new CategoryAddDto() { Name = category.Name };
@@ -199,7 +199,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Update_ShouldCallUpdateFromRepository_JustOnce()
+        public async void Update_ShouldCallUpdateFromService_JustOnce()
         {
             var category = CreateCategory();
             var categoryEditDto = new CategoryEditDto() { Id = category.Id, Name = "Test" };
@@ -249,7 +249,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Remove_ShouldCallRemoveFromRepository_JustOnce()
+        public async void Remove_ShouldCallRemoveFromService_JustOnce()
         {
             var category = CreateCategory();
             _categoryServiceMock.Setup(c => c.GetById(category.Id)).ReturnsAsync(category);
@@ -297,7 +297,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Search_ShouldCallSearchFromRepository_JustOnce()
+        public async void Search_ShouldCallSearchFromService_JustOnce()
         {
             var categoryList = CreateCategoryList();
             var category = CreateCategory();

@@ -25,7 +25,7 @@ namespace BookStore.Infrastructure.Tests
         }
 
         [Fact]
-        public async void GetAll_ShouldReturnListOfBooks_WhenBooksExist()
+        public async void GetAll_ShouldReturnAListOfBook_WhenBooksExist()
         {
             await using (var context = new BookStoreDbContext(_options))
             {
@@ -38,7 +38,7 @@ namespace BookStore.Infrastructure.Tests
         }
 
         [Fact]
-        public async void GetAll_ShouldReturnEmptyList_WhenBooksDoNotExist()
+        public async void GetAll_ShouldReturnAnEmptyList_WhenBooksDoNotExist()
         {
             await BookStoreHelperTests.CleanDataBase(_options);
 

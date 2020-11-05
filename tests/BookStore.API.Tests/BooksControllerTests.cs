@@ -53,7 +53,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void GetAll_ShouldCallGetAllFromRepository_JustOnce()
+        public async void GetAll_ShouldCallGetAllFromService_JustOnce()
         {
             var books = CreateBookList();
             var dtoExpected = MapModelToBookResultListDto(books);
@@ -91,7 +91,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void GetById_ShouldCallGetByIdFromRepository_JustOnce()
+        public async void GetById_ShouldCallGetByIdFromService_JustOnce()
         {
             var book = CreateBook();
             var dtoExpected = MapModelToBookResultDto(book);
@@ -134,7 +134,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void GetBooksByCategory_ShouldCallGetBooksByCategoryFromRepository_JustOnce()
+        public async void GetBooksByCategory_ShouldCallGetBooksByCategoryFromService_JustOnce()
         {
             var bookList = CreateBookList();
             var book = CreateBook();
@@ -184,7 +184,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Search_ShouldCallSearchFromRepository_JustOnce()
+        public async void Search_ShouldCallSearchFromService_JustOnce()
         {
             var bookList = CreateBookList();
             var book = CreateBook();
@@ -216,7 +216,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void SearchBookWithCategory_ShouldCallSearchBookWithCategoryFromRepository_JustOnce()
+        public async void SearchBookWithCategory_ShouldCallSearchBookWithCategoryFromService_JustOnce()
         {
             var bookList = CreateBookList();
             var book = CreateBook();
@@ -299,7 +299,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Add_ShouldCallAddFromRepository_JustOnce()
+        public async void Add_ShouldCallAddFromService_JustOnce()
         {
             var book = CreateBook();
             var bookAddDto = new BookAddDto() { Name = book.Name };
@@ -349,7 +349,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Update_ShouldCallUpdateFromRepository_JustOnce()
+        public async void Update_ShouldCallUpdateFromService_JustOnce()
         {
             var book = CreateBook();
             var bookEditDto = new BookEditDto() { Id = book.Id, Name = "Test" };
@@ -387,7 +387,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Remove_ShouldCallRemoveFromRepository_JustOnce()
+        public async void Remove_ShouldCallRemoveFromService_JustOnce()
         {
             var book = CreateBook();
             _bookServiceMock.Setup(c => c.GetById(book.Id)).ReturnsAsync(book);
