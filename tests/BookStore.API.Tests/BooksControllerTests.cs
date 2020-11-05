@@ -105,7 +105,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void GetBooksByCategory_ShouldReturnBooks_WhenBookWithSearchedCategoryExist()
+        public async void GetBooksByCategory_ShouldReturnOk_WhenBookWithSearchedCategoryExist()
         {
             var bookList = CreateBookList();
             var book = CreateBook();
@@ -149,7 +149,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Search_ShouldReturnBooks_WhenBookWithSearchedNameExist()
+        public async void Search_ShouldReturnOk_WhenBookWithSearchedNameExist()
         {
             var bookList = CreateBookList();
             var book = CreateBook();
@@ -198,7 +198,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void SearchBookWithCategory_ShouldReturnBooks_WhenBookWithSearchedValueExist()
+        public async void SearchBookWithCategory_ShouldReturnOk_WhenBookWithSearchedValueExist()
         {
             var bookList = CreateBookList();
             var book = CreateBook();
@@ -232,7 +232,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void SearchBookWithCategory_WhenBookWithSearchedValueDoesNotExist()
+        public async void SearchBookWithCategory_ShouldReturnNotFound_WhenBookWithSearchedValueDoesNotExist()
         {
             var book = CreateBook();
             var bookList = new List<Book>();

@@ -261,7 +261,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Search_ShouldReturnCategories_WhenCategoryWithSearchedNameExist()
+        public async void Search_ShouldReturnOk_WhenCategoryWithSearchedNameExist()
         {
             var categoryList = CreateCategoryList();
             var category = CreateCategory();
@@ -272,7 +272,6 @@ namespace BookStore.API.Tests
 
             var result = await _categoriesController.Search(category.Name);
             var actual = (OkObjectResult)result.Result;
-            var categoryListResult = actual.Value as List<Category>;
 
             Assert.IsType<OkObjectResult>(actual);
         }
