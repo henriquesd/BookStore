@@ -109,11 +109,8 @@ namespace BookStore.API.Tests
         {
             var category = CreateCategory();
             var categoryAddDto = new CategoryAddDto() { Name = category.Name };
-            var categoryResultDto = new CategoryResultDto()
-            {
-                Id = category.Id,
-                Name = category.Name
-            };
+            var categoryResultDto = MapModelToCategoryResultDto(category);
+
             _mapperMock.Setup(m => m.Map<Category>(It.IsAny<CategoryAddDto>())).Returns(category);
             _categoryServiceMock.Setup(c => c.Add(category)).ReturnsAsync(category);
             _mapperMock.Setup(m => m.Map<CategoryResultDto>(It.IsAny<Category>())).Returns(categoryResultDto);
