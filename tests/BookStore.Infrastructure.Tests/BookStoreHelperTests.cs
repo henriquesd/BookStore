@@ -80,9 +80,9 @@ namespace BookStore.Infrastructure.Tests
 
         private static void CreateData(BookStoreDbContext bookStoreDbContext)
         {
-            bookStoreDbContext.Categories.Add(new Category { Id = 1, Name = "Category 1" });
-            bookStoreDbContext.Categories.Add(new Category { Id = 2, Name = "Category 2" });
-            bookStoreDbContext.Categories.Add(new Category { Id = 3, Name = "Category 3" });
+            bookStoreDbContext.Categories.Add(new Category { Id = 1, Name = "Category Test 1" });
+            bookStoreDbContext.Categories.Add(new Category { Id = 2, Name = "Category Test 2" });
+            bookStoreDbContext.Categories.Add(new Category { Id = 3, Name = "Category Test 3" });
             bookStoreDbContext.Books.Add(new Book()
             {
                 Id = 1,

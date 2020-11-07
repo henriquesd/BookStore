@@ -22,14 +22,10 @@ namespace BookStore.Infrastructure.Repositories
             DbSet = db.Set<TEntity>();
         }
 
-        public async Task<IEnumerable<TEntity>> Search(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task Add(TEntity entity)
         {
-            return await DbSet.AsNoTracking().Where(predicate).ToListAsync();
-        }
-
-        public virtual async Task<TEntity> GetById(int id)
-        {
-            return await DbSet.FindAsync(id);
+            DbSet.Add(entity);
+            await SaveChanges();
         }
 
         public virtual async Task<List<TEntity>> GetAll()
@@ -37,12 +33,11 @@ namespace BookStore.Infrastructure.Repositories
             return await DbSet.ToListAsync();
         }
 
-        public virtual async Task Add(TEntity entity)
+        public virtual async Task<TEntity> GetById(int id)
         {
-            DbSet.Add(entity);
-            await SaveChanges();
+            return await DbSet.FindAsync(id);
         }
-
+        
         public virtual async Task Update(TEntity entity)
         {
             DbSet.Update(entity);
@@ -53,6 +48,11 @@ namespace BookStore.Infrastructure.Repositories
         {
             DbSet.Remove(entity);
             await SaveChanges();
+        }
+
+        public async Task<IEnumerable<TEntity>> Search(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await DbSet.AsNoTracking().Where(predicate).ToListAsync();
         }
 
         public async Task<int> SaveChanges()
