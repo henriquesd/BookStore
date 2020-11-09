@@ -176,8 +176,7 @@ namespace BookStore.Infrastructure.Tests
 
             await using (var context = new BookStoreDbContext(_options))
             {
-                var categoryRepository = new CategoryRepository(context);
-                categoryToRemove = await categoryRepository.GetById(2);
+                categoryToRemove = await context.Categories.Where(c => c.Id == 2).FirstOrDefaultAsync();
             }
 
             await using (var context = new BookStoreDbContext(_options))
