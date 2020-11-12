@@ -53,7 +53,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void GetAll_ShouldCallGetAllFromService_JustOnce()
+        public async void GetAll_ShouldCallGetAllFromService_OnlyOnce()
         {
             var categories = CreateCategoryList();
             var dtoExpected = MapModelToCategoryListDto(categories);
@@ -91,7 +91,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void GetById_ShouldCallGetByIdFromService_JustOnce()
+        public async void GetById_ShouldCallGetByIdFromService_OnlyOnce()
         {
             var category = CreateCategory();
             var dtoExpected = MapModelToCategoryResultDto(category);
@@ -146,7 +146,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Add_ShouldCallAddFromService_JustOnce()
+        public async void Add_ShouldCallAddFromService_OnlyOnce()
         {
             var category = CreateCategory();
             var categoryAddDto = new CategoryAddDto() { Name = category.Name };
@@ -196,7 +196,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Update_ShouldCallUpdateFromService_JustOnce()
+        public async void Update_ShouldCallUpdateFromService_OnlyOnce()
         {
             var category = CreateCategory();
             var categoryEditDto = new CategoryEditDto() { Id = category.Id, Name = "Test" };
@@ -246,7 +246,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Remove_ShouldCallRemoveFromService_JustOnce()
+        public async void Remove_ShouldCallRemoveFromService_OnlyOnce()
         {
             var category = CreateCategory();
             _categoryServiceMock.Setup(c => c.GetById(category.Id)).ReturnsAsync(category);
@@ -293,7 +293,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Search_ShouldCallSearchFromService_JustOnce()
+        public async void Search_ShouldCallSearchFromService_OnlyOnce()
         {
             var categoryList = CreateCategoryList();
             var category = CreateCategory();

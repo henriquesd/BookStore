@@ -46,7 +46,7 @@ namespace BookStore.Domain.Tests
         }
         
         [Fact]
-        public async void GetAll_ShouldCallGetAllFromRepository_JustOnce()
+        public async void GetAll_ShouldCallGetAllFromRepository_OnlyOnce()
         {
             _categoryRepositoryMock.Setup(c =>
                 c.GetAll()).ReturnsAsync((List<Category>)null);
@@ -82,7 +82,7 @@ namespace BookStore.Domain.Tests
         }
 
         [Fact]
-        public async void GetById_ShouldCallGetByIdFromRepository_JustOnce()
+        public async void GetById_ShouldCallGetByIdFromRepository_OnlyOnce()
         {
             _categoryRepositoryMock.Setup(c =>
                 c.GetById(1)).ReturnsAsync((Category)null);
@@ -123,7 +123,7 @@ namespace BookStore.Domain.Tests
         }
 
         [Fact]
-        public async void Add_ShouldCallAddFromRepository_JustOnce()
+        public async void Add_ShouldCallAddFromRepository_OnlyOnce()
         {
             var category = CreateCategory();
 
@@ -176,7 +176,7 @@ namespace BookStore.Domain.Tests
         }
 
         [Fact]
-        public async void Update_ShouldCallUpdateFromRepository_JustOnce()
+        public async void Update_ShouldCallUpdateFromRepository_OnlyOnce()
         {
             var category = CreateCategory();
 
@@ -226,7 +226,7 @@ namespace BookStore.Domain.Tests
         }
 
         [Fact]
-        public async void Remove_ShouldCallRemoveFromRepository_JustOnce()
+        public async void Remove_ShouldCallRemoveFromRepository_OnlyOnce()
         {
             var category = CreateCategory();
 
@@ -272,7 +272,7 @@ namespace BookStore.Domain.Tests
         }
 
         [Fact]
-        public async void Search_ShouldCallSearchFromRepository_JustOnce()
+        public async void Search_ShouldCallSearchFromRepository_OnlyOnce()
         {
             var categoryList = CreateCategoryList();
             var searchedCategory = CreateCategory();

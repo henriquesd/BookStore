@@ -44,7 +44,7 @@ namespace BookStore.Domain.Tests
         }
 
         [Fact]
-        public async void GetAll_ShouldCallGetAllFromRepository_JustOnce()
+        public async void GetAll_ShouldCallGetAllFromRepository_OnlyOnce()
         {
             _bookRepositoryMock.Setup(c => c.GetAll())
                 .ReturnsAsync(new List<Book>());
@@ -80,7 +80,7 @@ namespace BookStore.Domain.Tests
         }
 
         [Fact]
-        public async void GetById_ShouldCallGetByIdFromRepository_JustOnce()
+        public async void GetById_ShouldCallGetByIdFromRepository_OnlyOnce()
         {
             _bookRepositoryMock.Setup(c => c.GetById(1))
                 .ReturnsAsync(new Book());
@@ -116,7 +116,7 @@ namespace BookStore.Domain.Tests
         }
 
         [Fact]
-        public async void GetBooksByCategory_ShouldCallGetBooksByCategoryFromRepository_JustOnce()
+        public async void GetBooksByCategory_ShouldCallGetBooksByCategoryFromRepository_OnlyOnce()
         {
             var bookList = CreateBookList();
 
@@ -160,7 +160,7 @@ namespace BookStore.Domain.Tests
         }
 
         [Fact]
-        public async void Search_ShouldCallSearchFromRepository_JustOnce()
+        public async void Search_ShouldCallSearchFromRepository_OnlyOnce()
         {
             var bookList = CreateBookList();
             var searchedBook = CreateBook();
@@ -206,7 +206,7 @@ namespace BookStore.Domain.Tests
         }
 
         [Fact]
-        public async void SearchBookWithCategory_ShouldCallSearchBookWithCategoryFromRepository_JustOnce()
+        public async void SearchBookWithCategory_ShouldCallSearchBookWithCategoryFromRepository_OnlyOnce()
         {
             var bookList = CreateBookList();
             var searchedBook = CreateBook();
@@ -252,7 +252,7 @@ namespace BookStore.Domain.Tests
         }
 
         [Fact]
-        public async void Add_ShouldCallAddFromRepository_JustOnce()
+        public async void Add_ShouldCallAddFromRepository_OnlyOnce()
         {
             var book = CreateBook();
 
@@ -306,7 +306,7 @@ namespace BookStore.Domain.Tests
         }
 
         [Fact]
-        public async void Update_ShouldCallAddFromRepository_JustOnce()
+        public async void Update_ShouldCallAddFromRepository_OnlyOnce()
         {
             var book = CreateBook();
 
@@ -330,7 +330,7 @@ namespace BookStore.Domain.Tests
         }
 
         [Fact]
-        public async void Remove_ShouldCallRemoveFromRepository_JustOnce()
+        public async void Remove_ShouldCallRemoveFromRepository_OnlyOnce()
         {
             var book = CreateBook();
 

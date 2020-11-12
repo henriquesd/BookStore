@@ -53,7 +53,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void GetAll_ShouldCallGetAllFromService_JustOnce()
+        public async void GetAll_ShouldCallGetAllFromService_OnlyOnce()
         {
             var books = CreateBookList();
             var dtoExpected = MapModelToBookResultListDto(books);
@@ -91,7 +91,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void GetById_ShouldCallGetByIdFromService_JustOnce()
+        public async void GetById_ShouldCallGetByIdFromService_OnlyOnce()
         {
             var book = CreateBook();
             var dtoExpected = MapModelToBookResultDto(book);
@@ -134,7 +134,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void GetBooksByCategory_ShouldCallGetBooksByCategoryFromService_JustOnce()
+        public async void GetBooksByCategory_ShouldCallGetBooksByCategoryFromService_OnlyOnce()
         {
             var bookList = CreateBookList();
             var book = CreateBook();
@@ -190,7 +190,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Add_ShouldCallAddFromService_JustOnce()
+        public async void Add_ShouldCallAddFromService_OnlyOnce()
         {
             var book = CreateBook();
             var bookAddDto = new BookAddDto() { Name = book.Name };
@@ -240,7 +240,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Update_ShouldCallUpdateFromService_JustOnce()
+        public async void Update_ShouldCallUpdateFromService_OnlyOnce()
         {
             var book = CreateBook();
             var bookEditDto = new BookEditDto() { Id = book.Id, Name = "Test" };
@@ -278,7 +278,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Remove_ShouldCallRemoveFromService_JustOnce()
+        public async void Remove_ShouldCallRemoveFromService_OnlyOnce()
         {
             var book = CreateBook();
             _bookServiceMock.Setup(c => c.GetById(book.Id)).ReturnsAsync(book);
@@ -325,7 +325,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void Search_ShouldCallSearchFromService_JustOnce()
+        public async void Search_ShouldCallSearchFromService_OnlyOnce()
         {
             var bookList = CreateBookList();
             var book = CreateBook();
@@ -373,7 +373,7 @@ namespace BookStore.API.Tests
         }
 
         [Fact]
-        public async void SearchBookWithCategory_ShouldCallSearchBookWithCategoryFromService_JustOnce()
+        public async void SearchBookWithCategory_ShouldCallSearchBookWithCategoryFromService_OnlyOnce()
         {
             var bookList = CreateBookList();
             var book = CreateBook();
