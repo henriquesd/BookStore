@@ -1,0 +1,34 @@
+# BookStore
+Web API Project using .NET Core 3.1 and SPA project using Angular 9
+
+## Technologies
+- .NET Core 3.1
+- Entity Framework 3.1
+- Fluent API
+- AutoMapper
+- Swagger
+- SQL Server
+
+### Unit tests
+- xUnit
+- Moq
+- SQLite In-Memory database
+
+### SPA
+- Angular 9
+- NgBootstrap
+- DatePicker
+- Toastr
+
+## Architecture
+- 3 Layers:
+  - API layer
+    - Controllers
+    - Dtos
+  - Domain layer
+    - Models
+    - Interfaces
+    - Services
+  - Infrastructure layer
+    - Repository Pattern
+- SPA
