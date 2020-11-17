@@ -16,9 +16,8 @@ Web API Project using .NET Core 3.1 and SPA project using Angular 9
 
 ### SPA
 - Angular 9
-- NgBootstrap
-- DatePicker
-- Toastr
+- Ng-Bootstrap
+- Ngx-Toastr
 
 ## Architecture
 - 3 Layers:
