@@ -21,7 +21,7 @@ Web API Project using .NET Core 3.1 and SPA project using Angular 9
 
 ## Architecture
 - 3 Layers:
-  - API layer
+  - Application layer (API)
     - Controllers
     - Dtos
   - Domain layer
