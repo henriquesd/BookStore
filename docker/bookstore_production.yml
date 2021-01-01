@@ -1,0 +1,16 @@
+version: "3"
+
+services: 
+
+  web:
+    image: henriquesd/bookstore:latest
+    container_name: bookstore
+    build:
+      context: ../src
+      dockerfile: ./BookStore.API/Dockerfile
+    ports:
+      - "5001:5001"
+      - "5003:5003"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://*:5001
