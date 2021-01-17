@@ -42,3 +42,30 @@ On the series of articles, "Creating an Application from Scratch using .NET Core
 - [Part 6: Implementing Unit Tests for the Domain Layer](https://henriquesd.medium.com/creating-an-application-from-scratch-using-net-core-and-angular-part-6-76daa358db41)
 - [Part 7: Implementing Unit Tests for the API layer](https://henriquesd.medium.com/creating-an-application-from-scratch-using-net-core-and-angular-part-7-8b7f77772b36)
 - [Part 8: Implementing Unit Tests for the Infrastructure Layer](https://henriquesd.medium.com/creating-an-application-from-scratch-using-net-core-and-angular-part-8-85018dc84429)
+
+## Docker
+
+### Portainer
+To make the management of the containers, Portainer (https://www.portainer.io/) can be used. Portainer is also a docker image.
+To Install using these two commands:
+
+`docker volume create portainer_data`
+
+`docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce`
+
+#### Accessing Portainer
+Portainer can be access on: http://localhost:9000/
+
+The username is admin and the password is admin.
+
+On Portainer, select 'local', and go to 'Containers' menu to see the containers.
+
+### Running the application with Docker
+To run the containers, access the docker folder (BookStore\docker) in cmd and execute the command:
+
+`docker-compose -f bookstore_production.yml up --build`
+
+
+To access the API, go to: http://localhost:5001/swagger/index.html
+
+To connect into the database, open SQL Server Management Studio and in the Server name use 'localhost' and use the same username and password that is in the 'bookstore_production.yml' file (it will take some seconds until the database be created).
