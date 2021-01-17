@@ -2,6 +2,18 @@ version: "3"
 
 services: 
 
+  sql-server:
+    image: henriquesd/bookstore-sql-server:latest
+    container_name: bookstore-sql-server
+    build:
+        context: ../sql
+        dockerfile: ./Dockerfile
+    ports:
+      - "1433:1433"
+    environment:
+        SA_PASSWORD: "MyDB@123"
+        ACCEPT_EULA: "Y"     
+        
   web:
     image: henriquesd/bookstore:latest
     container_name: bookstore
