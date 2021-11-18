@@ -4,6 +4,7 @@ using AutoMapper;
 using BookStore.API.Dtos.Category;
 using BookStore.Domain.Interfaces;
 using BookStore.Domain.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.API.Controllers
@@ -22,6 +23,7 @@ namespace BookStore.API.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
             var categories = await _categoryService.GetAll();
@@ -30,6 +32,8 @@ namespace BookStore.API.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id)
         {
             var category = await _categoryService.GetById(id);
@@ -40,6 +44,8 @@ namespace BookStore.API.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Add(CategoryAddDto categoryDto)
         {
             if (!ModelState.IsValid) return BadRequest();
@@ -53,6 +59,8 @@ namespace BookStore.API.Controllers
         }
 
         [HttpPut("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update(int id, CategoryEditDto categoryDto)
         {
             if (id != categoryDto.Id) return BadRequest();
@@ -65,6 +73,8 @@ namespace BookStore.API.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Remove(int id)
         {
             var category = await _categoryService.GetById(id);
@@ -77,8 +87,10 @@ namespace BookStore.API.Controllers
             return Ok();
         }
 
-        [Route("search/{category}")]
         [HttpGet]
+        [Route("search/{category}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<List<Category>>> Search(string category)
         {
             var categories = _mapper.Map<List<Category>>(await _categoryService.Search(category));
