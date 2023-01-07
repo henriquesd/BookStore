@@ -66,12 +66,12 @@ namespace BookStore.Infrastructure.Tests
                 var categoryList = await categoryRepository.GetAll();
 
                 Assert.Equal(3, categoryList.Count);
-                Assert.Equal(expectedCategories[0].Id, categoryList[0].Id);
-                Assert.Equal(expectedCategories[0].Name, categoryList[0].Name);
-                Assert.Equal(expectedCategories[1].Id, categoryList[1].Id);
-                Assert.Equal(expectedCategories[1].Name, categoryList[1].Name);
-                Assert.Equal(expectedCategories[2].Id, categoryList[2].Id);
-                Assert.Equal(expectedCategories[2].Name, categoryList[2].Name);
+
+                for (int i = 0; i < categoryList.Count(); i++)
+                {
+                    Assert.Equal(expectedCategories[i].Id, categoryList[i].Id);
+                    Assert.Equal(expectedCategories[i].Name, categoryList[i].Name);
+                }
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BookStore.Domain.Models;
 using BookStore.Infrastructure.Context;
 using BookStore.Infrastructure.Repositories;
@@ -63,30 +64,18 @@ namespace BookStore.Infrastructure.Tests
                 var bookList = await bookRepository.GetAll();
 
                 Assert.Equal(3, bookList.Count);
-                Assert.Equal(expectedBooks[0].Id, bookList[0].Id);
-                Assert.Equal(expectedBooks[0].Name, bookList[0].Name);
-                Assert.Equal(expectedBooks[0].Description, bookList[0].Description);
-                Assert.Equal(expectedBooks[0].CategoryId, bookList[0].CategoryId);
-                Assert.Equal(expectedBooks[0].PublishDate, bookList[0].PublishDate);
-                Assert.Equal(expectedBooks[0].Value, bookList[0].Value);
-                Assert.Equal(expectedBooks[0].Category.Id, bookList[0].Category.Id);
-                Assert.Equal(expectedBooks[0].Category.Name, bookList[0].Category.Name);
-                Assert.Equal(expectedBooks[1].Id, bookList[1].Id);
-                Assert.Equal(expectedBooks[1].Name, bookList[1].Name);
-                Assert.Equal(expectedBooks[1].Description, bookList[1].Description);
-                Assert.Equal(expectedBooks[1].CategoryId, bookList[1].CategoryId);
-                Assert.Equal(expectedBooks[1].PublishDate, bookList[1].PublishDate);
-                Assert.Equal(expectedBooks[1].Value, bookList[1].Value);
-                Assert.Equal(expectedBooks[1].Category.Id, bookList[1].Category.Id);
-                Assert.Equal(expectedBooks[1].Category.Name, bookList[1].Category.Name);
-                Assert.Equal(expectedBooks[2].Id, bookList[2].Id);
-                Assert.Equal(expectedBooks[2].Name, bookList[2].Name);
-                Assert.Equal(expectedBooks[2].Description, bookList[2].Description);
-                Assert.Equal(expectedBooks[2].CategoryId, bookList[2].CategoryId);
-                Assert.Equal(expectedBooks[2].PublishDate, bookList[2].PublishDate);
-                Assert.Equal(expectedBooks[2].Value, bookList[2].Value);
-                Assert.Equal(expectedBooks[2].Category.Id, bookList[2].Category.Id);
-                Assert.Equal(expectedBooks[2].Category.Name, bookList[2].Category.Name);
+
+                for (int i = 0; i < bookList.Count(); i++)
+                {
+                    Assert.Equal(expectedBooks[i].Id, bookList[i].Id);
+                    Assert.Equal(expectedBooks[i].Name, bookList[i].Name);
+                    Assert.Equal(expectedBooks[i].Description, bookList[i].Description);
+                    Assert.Equal(expectedBooks[i].CategoryId, bookList[i].CategoryId);
+                    Assert.Equal(expectedBooks[i].PublishDate, bookList[i].PublishDate);
+                    Assert.Equal(expectedBooks[i].Value, bookList[i].Value);
+                    Assert.Equal(expectedBooks[i].Category.Id, bookList[i].Category.Id);
+                    Assert.Equal(expectedBooks[i].Category.Name, bookList[i].Category.Name);
+                }
             }
         }
 
@@ -233,30 +222,18 @@ namespace BookStore.Infrastructure.Tests
                 Assert.NotNull(bookList);
                 Assert.IsType<List<Book>>(bookList);
                 Assert.Equal(expectedBooks.Count, bookList.Count);
-                Assert.Equal(expectedBooks[0].Id, bookList[0].Id);
-                Assert.Equal(expectedBooks[0].Name, bookList[0].Name);
-                Assert.Equal(expectedBooks[0].Description, bookList[0].Description);
-                Assert.Equal(expectedBooks[0].CategoryId, bookList[0].CategoryId);
-                Assert.Equal(expectedBooks[0].PublishDate, bookList[0].PublishDate);
-                Assert.Equal(expectedBooks[0].Value, bookList[0].Value);
-                Assert.Equal(expectedBooks[0].Category.Id, bookList[0].Category.Id);
-                Assert.Equal(expectedBooks[0].Category.Name, bookList[0].Category.Name);
-                Assert.Equal(expectedBooks[1].Id, bookList[1].Id);
-                Assert.Equal(expectedBooks[1].Name, bookList[1].Name);
-                Assert.Equal(expectedBooks[1].Description, bookList[1].Description);
-                Assert.Equal(expectedBooks[1].CategoryId, bookList[1].CategoryId);
-                Assert.Equal(expectedBooks[1].PublishDate, bookList[1].PublishDate);
-                Assert.Equal(expectedBooks[1].Value, bookList[1].Value);
-                Assert.Equal(expectedBooks[1].Category.Id, bookList[1].Category.Id);
-                Assert.Equal(expectedBooks[1].Category.Name, bookList[1].Category.Name);
-                Assert.Equal(expectedBooks[2].Id, bookList[2].Id);
-                Assert.Equal(expectedBooks[2].Name, bookList[2].Name);
-                Assert.Equal(expectedBooks[2].Description, bookList[2].Description);
-                Assert.Equal(expectedBooks[2].CategoryId, bookList[2].CategoryId);
-                Assert.Equal(expectedBooks[2].PublishDate, bookList[2].PublishDate);
-                Assert.Equal(expectedBooks[2].Value, bookList[2].Value);
-                Assert.Equal(expectedBooks[2].Category.Id, bookList[2].Category.Id);
-                Assert.Equal(expectedBooks[2].Category.Name, bookList[2].Category.Name);
+
+                for (int i = 0; i < bookList.Count(); i++)
+                {
+                    Assert.Equal(expectedBooks[i].Id, bookList[i].Id);
+                    Assert.Equal(expectedBooks[i].Name, bookList[i].Name);
+                    Assert.Equal(expectedBooks[i].Description, bookList[i].Description);
+                    Assert.Equal(expectedBooks[i].CategoryId, bookList[i].CategoryId);
+                    Assert.Equal(expectedBooks[i].PublishDate, bookList[i].PublishDate);
+                    Assert.Equal(expectedBooks[i].Value, bookList[i].Value);
+                    Assert.Equal(expectedBooks[i].Category.Id, bookList[i].Category.Id);
+                    Assert.Equal(expectedBooks[i].Category.Name, bookList[i].Category.Name);
+                }
             }
         }
 
